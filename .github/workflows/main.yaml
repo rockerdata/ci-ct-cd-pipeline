@@ -1,0 +1,61 @@
+name: Training on EC2 selfhosted Runner
+on:
+  push:
+    paths:
+      - ".github/workflows/main.yaml"
+
+jobs:
+  deploy-runner: # (1) Deployment of the EC2 runner 
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: iterative/setup-cml@v1
+      - name: Runner deployment on EC2
+        env:
+          REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+        run: |
+          cml runner \
+              --cloud=aws \
+              --cloud-region=ap-south-1a \
+              --cloud-type=t2.large \
+              --labels=cml-runner
+
+  train-model: # (2) Training of the model 
+    needs: deploy-runner
+    runs-on: [cml-runner]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Model Training
+        env:
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+          REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          cml ci
+          pip install -r requirements.txt
+          python call_train.py
+
+  Deploy-Render:
+    needs:  train-model
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Trigger deployment
+        uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
+        with:
+          serviceId: ${{ secrets.RENDER_SERVICE_ID }}
+          apiKey: ${{ secrets.RENDER_API_KEY }}
+          multipleDeployment: false #optional, default true
+
+  # save_metadata: # (3) Push the metadata to DVC
+  #   runs-on: [cml-runner]
+  #   steps:
+  #     - name: Save metadata into DVC
+  #       run: python save_metadata.py
+
+
+  #added trigger
+  #added trigger

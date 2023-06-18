@@ -1,0 +1,15 @@
+name: githubactions_wandb
+channels:
+  - defaults
+dependencies:
+  - Flask
+  - Werkzeug
+  - numpy
+  - pandas
+  - jinja2
+  - Werkzeug
+  - itsdangerous
+  - scikit-learn
+  - pip
+  - pip:
+      - wandb

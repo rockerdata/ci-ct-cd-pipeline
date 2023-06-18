@@ -1,0 +1,10 @@
+Flask
+Werkzeug
+pandas
+numpy
+gunicorn
+jinja2
+Werkzeug
+itsdangerous
+scikit-learn
+wandb
