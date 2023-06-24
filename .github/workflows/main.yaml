@@ -5,7 +5,7 @@ on:
       - ".github/workflows/main.yaml"
 
 jobs:
-  deploy-runner: # (1) Deployment of the EC2
+  deploy-runner: # (1) Deployment of 
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
