@@ -7,9 +7,6 @@ from config.config import CONFIG
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 
-
-##
-
 app = Flask(__name__)
 
 @app.route('/',methods=['POST','GET'])
