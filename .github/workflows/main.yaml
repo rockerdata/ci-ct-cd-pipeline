@@ -1,8 +1,10 @@
+# Github push examples-  https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
+
 name: Training on EC2 selfhosted Runner
 on:
   push:
-    paths:
-      - ".github/workflows/main.yaml"
+    branches:
+      - 'main'
 
 jobs:
   deploy-runner: # (1) Deployment of 
@@ -50,12 +52,4 @@ jobs:
           apiKey: ${{ secrets.RENDER_API_KEY }}
           multipleDeployment: false #optional, default true
 
-  # save_metadata: # (3) Push the metadata to DVC
-  #   runs-on: [cml-runner]
-  #   steps:
-  #     - name: Save metadata into DVC
-  #       run: python save_metadata.py
 
-
-  #added trigger
-  #added trigger
