@@ -1,5 +1,5 @@
 # Github push examples-  https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#push
-
+# Store all required keys in Github Repo -> Settings -> Secrets and Variables -> Actions -> New Repository Secret
 name: Training on EC2 selfhosted Runner
 on:
   push:
