@@ -26,7 +26,7 @@ def preprocess():
     return X_test
 
 @app.route('/predict', methods=['POST','GET'])
-def predict():
+def predict(): 
     X_test = preprocess()
     # data=float(request.form['model_input'])
     
